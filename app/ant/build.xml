@@ -1,0 +1,39 @@
+<!-- build.xml -->
+<project name="HelloWorld" default="compile" basedir=".">
+    <!-- 설정 -->
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir" value="${build.dir}/jar"/>
+    <property name="main-class" value="com.example.HelloWorld"/>
+
+    <!-- 초기화 -->
+    <target name="init">
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${jar.dir}"/>
+    </target>
+
+    <!-- 컴파일 -->
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false"/>
+    </target>
+
+    <!-- JAR 파일 생성 -->
+    <target name="jar" depends="compile">
+        <jar destfile="${jar.dir}/HelloWorld.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- 실행 -->
+    <target name="run" depends="jar">
+        <java jar="${jar.dir}/HelloWorld.jar" fork="true"/>
+    </target>
+
+    <!-- 클린업 -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+</project>
